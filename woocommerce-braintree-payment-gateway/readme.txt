@@ -36,6 +36,7 @@ After that, your customers will be able to select the credit card checkout optio
 This Plugin __does not__ support WooCommerce Subscriptions, but this functionality is in plan for the near future.
 
 = Developers =
+
 Github repository - https://github.com/wp-insider/woocommerce-braintree-payment-gateway
 
 == Installation ==
