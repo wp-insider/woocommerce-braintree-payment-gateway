@@ -343,15 +343,22 @@ function run_WC_braintree_payment_gateway() {
 					'result'   => 'success',
 					'redirect' => $this->get_return_url( $order )
 				);
-			} else if ($result->transaction) {
-				$order->add_order_note( sprintf( __( '%s payment declined.<br />Error: %s<br />Code: %s', 'woocommerce' ), $this->title, $result->message, $result->transaction->processorResponseCode ) );
 			} else {
-				$exclude = array( 81725 ); //Credit card must include number, paymentMethodNonce, or venmoSdkPaymentMethodCode.
-			    foreach ( ($result->errors->deepAll() ) as $error ) {
-			    	if( !in_array( $error->code, $exclude ) ) {
-			        	wc_add_notice( "Error - " . $error->message, 'error' );
-			        }
-			    }
+				if ($result->transaction) {
+					$errMessage = sprintf( __( '%s payment declined.<br />Error: %s<br />Code: %s', 'woocommerce' ),
+						$this->title,
+						$result->message . ( ! empty($result->transaction->additionalProcessorResponse) ? '<br />' . $result->transaction->additionalProcessorResponse : ''),
+						$result->transaction->processorResponseCode );
+					$order->add_order_note( $errMessage );
+					wc_add_notice( $errMessage, 'error' );
+				} else {
+					$exclude = array( 81725 ); //Credit card must include number, paymentMethodNonce, or venmoSdkPaymentMethodCode.
+					foreach ( ($result->errors->deepAll() ) as $error ) {
+						if( !in_array( $error->code, $exclude ) ) {
+							wc_add_notice( __('Error', 'woocommerce') . " - " . $error->message, 'error' );
+						}
+					}
+				}
 			    return array(
 					'result'   => 'fail',
 					'redirect' => ''
