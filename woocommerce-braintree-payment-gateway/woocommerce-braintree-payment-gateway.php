@@ -4,7 +4,7 @@
  * Plugin Name: WooCommerce Braintree Payment Gateway
  * Plugin URI: https://wp-ecommerce.net/
  * Description: Braintree Payment Gateway allows you to accept payments on your Woocommerce store. It authorizes credit card payments and processes them securely with your merchant account.
- * Version: 1.6
+ * Version: 1.7
  * Author: wp.insider
  * Author URI: https://wp-ecommerce.net/
  * License: GPL-2.0+
@@ -12,6 +12,8 @@
  * WC requires at least: 3.0
  * WC tested up to: 3.4
  */
+
+//Slug - wcbpg
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -318,7 +320,7 @@ function run_WC_braintree_payment_gateway() {
 			$this->get_braintree_api();
 
 			$result = Braintree_Transaction::sale(array(
-			    "amount" => $order->order_total,
+			    "amount" => $order->get_total(),//order_total,
 			    'paymentMethodNonce' => $_POST["braintree-payment-nonce"],
                             'channel' => 'TipsandTricks_SP',
 			    "customer" => array(
@@ -372,3 +374,12 @@ function run_WC_braintree_payment_gateway() {
 	}
 
 }
+
+function wcbpg_add_link_to_settings_menu($links, $file){
+    if ($file == plugin_basename(__FILE__)) {
+        $settings_link = '<a href="admin.php?page=wc-settings&tab=checkout&section=braintree">Settings</a>';
+        array_unshift($links, $settings_link);
+    }
+    return $links;
+}
+add_filter('plugin_action_links', 'wcbpg_add_link_to_settings_menu', 10, 2);
