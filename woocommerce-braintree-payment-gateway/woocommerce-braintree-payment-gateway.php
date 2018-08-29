@@ -214,17 +214,19 @@ function run_WC_braintree_payment_gateway() {
 		}
 		private function get_braintree_api() {
 
-			require_once( 'includes/lib/Braintree.php' );
+                    if ( ! function_exists( 'requireDependencies' ) ) {
+                        require_once( 'includes/lib/Braintree.php' );
+                    }
 
-			try {
-				Braintree_Configuration::environment( $this->environment );
-				Braintree_Configuration::merchantId( $this->merchant_id );
-				Braintree_Configuration::publicKey( $this->public_key );
-				Braintree_Configuration::privateKey( $this->private_key );
-      		} catch (Exception $e) {
-            	return false;
-        	}			
-        	return true;
+                    try {
+                            Braintree_Configuration::environment( $this->environment );
+                            Braintree_Configuration::merchantId( $this->merchant_id );
+                            Braintree_Configuration::publicKey( $this->public_key );
+                            Braintree_Configuration::privateKey( $this->private_key );
+                    } catch (Exception $e) {
+                    return false;
+                    }	
+                    return true;
 		}
 		/**
 	 	 * Initialise Credit Card Payment Form Fields
