@@ -10,7 +10,7 @@
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * WC requires at least: 3.0
- * WC tested up to: 3.4
+ * WC tested up to: 3.5
  */
 
 //Slug - wcbpg
