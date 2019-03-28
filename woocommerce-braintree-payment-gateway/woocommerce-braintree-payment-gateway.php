@@ -3,7 +3,7 @@
  * Plugin Name: WooCommerce Braintree Payment Gateway
  * Plugin URI: https://wp-ecommerce.net/
  * Description: Braintree Payment Gateway allows you to accept payments on your Woocommerce store. It authorizes credit card payments and processes them securely with your merchant account.
- * Version: 1.7
+ * Version: 1.9
  * Author: wp.insider
  * Author URI: https://wp-ecommerce.net/
  * License: GPL-2.0+
@@ -98,156 +98,170 @@ function run_WC_braintree_payment_gateway() {
 	    	}).change();
 	        </script>
 	    </table> <?php
+	}
+
+	/**
+	 * Check if SSL is enabled and notify the user
+	 */
+	public function checks() {
+	    if ( $this->enabled == 'no' ) {
+		return;
 	    }
 
-	    /**
-	     * Check if SSL is enabled and notify the user
-	     */
-	    public function checks() {
-		if ( $this->enabled == 'no' ) {
-		    return;
-		}
-
-		// PHP Version
-		if ( version_compare( phpversion(), '5.4.0', '<' ) ) {
-		    echo '<div class="error"><p>' . sprintf( __( 'Braintree Error: Braintree requires PHP 5.4.0 and above. You are using version %s.', 'woocommerce' ), phpversion() ) . '</p></div>';
-		}
-
-		// Show message if enabled and FORCE SSL is disabled and WordpressHTTPS plugin is not detected
-		elseif ( 'no' == get_option( 'woocommerce_force_ssl_checkout' ) && ! class_exists( 'WordPressHTTPS' ) ) {
-		    echo '<div class="error"><p>' . sprintf( __( 'Braintree is enabled, but the <a href="%s">force SSL option</a> is disabled; your checkout may not be secure! Please enable SSL and ensure your server has a valid SSL certificate - Braintree will only work in sandbox mode.', 'woocommerce' ), admin_url( 'admin.php?page=wc-settings&tab=checkout' ) ) . '</p></div>';
-		}
+	    // PHP Version
+	    if ( version_compare( phpversion(), '5.4.0', '<' ) ) {
+		echo '<div class="error"><p>' . sprintf( __( 'Braintree Error: Braintree requires PHP 5.4.0 and above. You are using version %s.', 'woocommerce' ), phpversion() ) . '</p></div>';
 	    }
 
-	    /**
-	     * Check if this gateway is enabled
-	     */
-	    public function is_available() {
-		if ( 'yes' != $this->enabled ) {
-		    return false;
-		}
+	    // Show message if enabled and FORCE SSL is disabled and WordpressHTTPS plugin is not detected
+	    elseif ( 'no' == get_option( 'woocommerce_force_ssl_checkout' ) && ! class_exists( 'WordPressHTTPS' ) ) {
+		echo '<div class="error"><p>' . sprintf( __( 'Braintree is enabled, but the <a href="%s">force SSL option</a> is disabled; your checkout may not be secure! Please enable SSL and ensure your server has a valid SSL certificate - Braintree will only work in sandbox mode.', 'woocommerce' ), admin_url( 'admin.php?page=wc-settings&tab=checkout' ) ) . '</p></div>';
+	    }
+	}
 
-		if ( ! is_ssl() && 'yes' != $this->sandbox ) {
-		    return false;
-		}
-
-		return true;
+	/**
+	 * Check if this gateway is enabled
+	 */
+	public function is_available() {
+	    if ( 'yes' != $this->enabled ) {
+		return false;
 	    }
 
-	    /**
-	     * Initialise Gateway Settings Form Fields
-	     */
-	    public function init_form_fields() {
-		$this->form_fields = array(
-		    'enabled'		 => array(
-			'title'		 => __( 'Enable/Disable', 'woocommerce' ),
-			'label'		 => __( 'Enable Braintree Payment Gateway', 'woocommerce' ),
-			'type'		 => 'checkbox',
-			'description'	 => '',
-			'default'	 => 'no'
-		    ),
-		    'title'			 => array(
-			'title'		 => __( 'Title', 'woocommerce' ),
-			'type'		 => 'text',
-			'description'	 => __( 'This controls the title which the user sees during checkout.', 'woocommerce' ),
-			'default'	 => __( 'Credit card', 'woocommerce' ),
-			'desc_tip'	 => true
-		    ),
-		    'description'		 => array(
-			'title'		 => __( 'Description', 'woocommerce' ),
-			'type'		 => 'textarea',
-			'description'	 => __( 'This controls the description which the user sees during checkout.', 'woocommerce' ),
-			'default'	 => 'Pay securely with your credit card.',
-			'desc_tip'	 => true
-		    ),
-		    'sandbox'		 => array(
-			'title'		 => __( 'Sandbox', 'woocommerce' ),
-			'label'		 => __( 'Enable Sandbox Mode', 'woocommerce' ),
-			'type'		 => 'checkbox',
-			'description'	 => __( 'Place the payment gateway in sandbox mode using sandbox API keys (real payments will not be taken).', 'woocommerce' ),
-			'default'	 => 'yes'
-		    ),
-		    'sandbox_merchant_id'	 => array(
-			'title'		 => __( 'Sandbox Merchant ID', 'woocommerce' ),
-			'type'		 => 'text',
-			'description'	 => __( 'Get your API keys from your Braintree account.', 'woocommerce' ),
-			'default'	 => '',
-			'desc_tip'	 => true
-		    ),
-		    'sandbox_public_key'	 => array(
-			'title'		 => __( 'Sandbox Public Key', 'woocommerce' ),
-			'type'		 => 'text',
-			'description'	 => __( 'Get your API keys from your Braintree account.', 'woocommerce' ),
-			'default'	 => '',
-			'desc_tip'	 => true
-		    ),
-		    'sandbox_private_key'	 => array(
-			'title'		 => __( 'Sandbox Private Key', 'woocommerce' ),
-			'type'		 => 'text',
-			'description'	 => __( 'Get your API keys from your Braintree account.', 'woocommerce' ),
-			'default'	 => '',
-			'desc_tip'	 => true
-		    ),
-		    'merchant_id'		 => array(
-			'title'		 => __( 'Merchant ID', 'woocommerce' ),
-			'type'		 => 'text',
-			'description'	 => __( 'Get your API keys from your Braintree account.', 'woocommerce' ),
-			'default'	 => '',
-			'desc_tip'	 => true
-		    ),
-		    'public_key'		 => array(
-			'title'		 => __( 'Public Key', 'woocommerce' ),
-			'type'		 => 'text',
-			'description'	 => __( 'Get your API keys from your Braintree account.', 'woocommerce' ),
-			'default'	 => '',
-			'desc_tip'	 => true
-		    ),
-		    'private_key'		 => array(
-			'title'		 => __( 'Private Key', 'woocommerce' ),
-			'type'		 => 'text',
-			'description'	 => __( 'Get your API keys from your Braintree account.', 'woocommerce' ),
-			'default'	 => '',
-			'desc_tip'	 => true
-		    ),
-		);
+	    if ( ! is_ssl() && 'yes' != $this->sandbox ) {
+		return false;
 	    }
 
-	    private function get_braintree_api() {
+	    return true;
+	}
 
-		if ( ! function_exists( 'requireDependencies' ) ) {
-		    require_once( 'includes/lib/Braintree.php' );
-		}
+	/**
+	 * Initialise Gateway Settings Form Fields
+	 */
+	public function init_form_fields() {
+	    $this->form_fields = array(
+		'enabled'		 => array(
+		    'title'		 => __( 'Enable/Disable', 'woocommerce' ),
+		    'label'		 => __( 'Enable Braintree Payment Gateway', 'woocommerce' ),
+		    'type'		 => 'checkbox',
+		    'description'	 => '',
+		    'default'	 => 'no'
+		),
+		'title'			 => array(
+		    'title'		 => __( 'Title', 'woocommerce' ),
+		    'type'		 => 'text',
+		    'description'	 => __( 'This controls the title which the user sees during checkout.', 'woocommerce' ),
+		    'default'	 => __( 'Credit card', 'woocommerce' ),
+		    'desc_tip'	 => true
+		),
+		'description'		 => array(
+		    'title'		 => __( 'Description', 'woocommerce' ),
+		    'type'		 => 'textarea',
+		    'description'	 => __( 'This controls the description which the user sees during checkout.', 'woocommerce' ),
+		    'default'	 => 'Pay securely with your credit card.',
+		    'desc_tip'	 => true
+		),
+		'sandbox'		 => array(
+		    'title'		 => __( 'Sandbox', 'woocommerce' ),
+		    'label'		 => __( 'Enable Sandbox Mode', 'woocommerce' ),
+		    'type'		 => 'checkbox',
+		    'description'	 => __( 'Place the payment gateway in sandbox mode using sandbox API keys (real payments will not be taken).', 'woocommerce' ),
+		    'default'	 => 'yes'
+		),
+		'sandbox_merchant_id'	 => array(
+		    'title'		 => __( 'Sandbox Merchant ID', 'woocommerce' ),
+		    'type'		 => 'text',
+		    'description'	 => __( 'Get your API keys from your Braintree account.', 'woocommerce' ),
+		    'default'	 => '',
+		    'desc_tip'	 => true
+		),
+		'sandbox_public_key'	 => array(
+		    'title'		 => __( 'Sandbox Public Key', 'woocommerce' ),
+		    'type'		 => 'text',
+		    'description'	 => __( 'Get your API keys from your Braintree account.', 'woocommerce' ),
+		    'default'	 => '',
+		    'desc_tip'	 => true
+		),
+		'sandbox_private_key'	 => array(
+		    'title'		 => __( 'Sandbox Private Key', 'woocommerce' ),
+		    'type'		 => 'text',
+		    'description'	 => __( 'Get your API keys from your Braintree account.', 'woocommerce' ),
+		    'default'	 => '',
+		    'desc_tip'	 => true
+		),
+		'merchant_id'		 => array(
+		    'title'		 => __( 'Merchant ID', 'woocommerce' ),
+		    'type'		 => 'text',
+		    'description'	 => __( 'Get your API keys from your Braintree account.', 'woocommerce' ),
+		    'default'	 => '',
+		    'desc_tip'	 => true
+		),
+		'public_key'		 => array(
+		    'title'		 => __( 'Public Key', 'woocommerce' ),
+		    'type'		 => 'text',
+		    'description'	 => __( 'Get your API keys from your Braintree account.', 'woocommerce' ),
+		    'default'	 => '',
+		    'desc_tip'	 => true
+		),
+		'private_key'		 => array(
+		    'title'		 => __( 'Private Key', 'woocommerce' ),
+		    'type'		 => 'text',
+		    'description'	 => __( 'Get your API keys from your Braintree account.', 'woocommerce' ),
+		    'default'	 => '',
+		    'desc_tip'	 => true
+		),
+	    );
+	}
 
-		try {
-		    Braintree_Configuration::environment( $this->environment );
-		    Braintree_Configuration::merchantId( $this->merchant_id );
-		    Braintree_Configuration::publicKey( $this->public_key );
-		    Braintree_Configuration::privateKey( $this->private_key );
-		} catch ( Exception $e ) {
-		    return false;
-		}
-		return true;
+	private function get_braintree_api() {
+
+	    if ( ! function_exists( 'requireDependencies' ) ) {
+		require_once( 'includes/lib/Braintree.php' );
 	    }
 
-	    /**
-	     * Initialise Credit Card Payment Form Fields
-	     */
-	    public function payment_fields() {
-		$this->get_braintree_api();
-		try {
-		    $clientToken = Braintree_ClientToken::generate();
-		} catch ( Exception $e ) {
-		    $eClass	 = get_class( $e );
-		    $ret	 = "Braintree Error: " . $eClass;
-		    if ( $eClass == "Braintree\Exception\Authentication" )
-			$ret	 = __( 'Braintree Authentication Error. Check your API keys.', 'wp_braintree_lang' );
-		    echo '<b style="color:red;">' . $ret . '</b>';
-		    die();
-		}
-		wp_localize_script( 'wc-braintree-payment-gateway', 'Braintree_params', array(
-		    'client_token' => $clientToken
-		) );
-		?>
+	    try {
+		Braintree_Configuration::environment( $this->environment );
+		Braintree_Configuration::merchantId( $this->merchant_id );
+		Braintree_Configuration::publicKey( $this->public_key );
+		Braintree_Configuration::privateKey( $this->private_key );
+	    } catch ( Exception $e ) {
+		return false;
+	    }
+	    return true;
+	}
+
+	/**
+	 * Initialise Credit Card Payment Form Fields
+	 */
+	public function payment_fields() {
+	    global $woocommerce;
+	    $this->get_braintree_api();
+	    try {
+		$clientToken = Braintree_ClientToken::generate();
+	    } catch ( Exception $e ) {
+		$eClass	 = get_class( $e );
+		$ret	 = "Braintree Error: " . $eClass;
+		if ( $eClass == "Braintree\Exception\Authentication" )
+		    $ret	 = __( 'Braintree Authentication Error. Check your API keys.', 'wp_braintree_lang' );
+		echo '<b style="color:red;">' . $ret . '</b>';
+		die();
+	    }
+	    wp_localize_script( 'wc-braintree-payment-gateway', 'Braintree_params', array(
+		'client_token'	 => $clientToken,
+		'total_amount'	 => $this->get_order_total()
+	    ) );
+	    ?>
+	    <div id="braintree-3ds-modal-container" class="braintree-3ds-modal-container" style="display: none;">
+	        <div id ="braintree-3ds-modal" class="braintree-3ds-modal">
+	    	<div class="braintree-3ds-modal-header">
+	    	    <span class="braintree-3ds-modal-close-btn">&times;</span>
+	    	</div>
+	    	<div id ="braintree-3ds-modal-content" class="braintree-3ds-modal-content">
+	    	</div>
+	        </div>
+	    </div>
+	    <div id="braintree-spinner-container" class="braintree-spinner-container" style="display: none;">
+	        <div class="braintree-spinner"><i></i><i></i><i></i><i></i></div>
+	    </div>
 	    <fieldset id="braintree-cc-form">
 	        <input type="hidden" id="braintree-payment-nonce" name="braintree-payment-nonce">
 	        <input type="hidden" id="braintree-error" name="braintree-error" value="">
@@ -283,8 +297,9 @@ function run_WC_braintree_payment_gateway() {
 	    wp_register_style( 'wc-braintree-style', plugins_url( 'public/css/woocommerce-braintree-payment-gateway-public.css', __FILE__ ), array(), '20160306', 'all' );
 	    wp_enqueue_style( 'wc-braintree-style' );
 
-	    wp_enqueue_script( 'wc-braintree-client', 'https://js.braintreegateway.com/web/3.6.0/js/client.min.js', array(), null, true );
-	    wp_enqueue_script( 'wc-braintree-hosted', 'https://js.braintreegateway.com/web/3.6.0/js/hosted-fields.min.js', array(), null, true );
+	    wp_enqueue_script( 'wc-braintree-client', 'https://js.braintreegateway.com/web/3.43.0/js/client.min.js', array(), null, true );
+	    wp_enqueue_script( 'wc-braintree-hosted', 'https://js.braintreegateway.com/web/3.43.0/js/hosted-fields.min.js', array(), null, true );
+	    wp_enqueue_script( 'wc-three-d-secure', 'https://js.braintreegateway.com/web/3.43.0/js/three-d-secure.min.js', array(), null, true );
 
 	    wp_enqueue_script( 'wc-braintree-payment-gateway', plugins_url( 'public/js/woocommerce-braintree-payment-gateway-public.js', __FILE__ ), array( 'jquery' ), WC_VERSION, true );
 	}

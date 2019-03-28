@@ -12,6 +12,17 @@
 		    console.error(err);
 		    return;
 		}
+		braintree.threeDSecure.create({
+		    client: clientInstance
+		}, function (threeDSecureErr, threeDSecureInstance) {
+		    if (threeDSecureErr) {
+			console.error(err);
+			return;
+		    }
+
+		    threeDSecure = threeDSecureInstance;
+		});
+
 		braintree.hostedFields.create({
 		    client: clientInstance,
 		    styles: {
@@ -54,6 +65,10 @@
 			    canSubmit = false;
 			    return true;
 			}
+			$('button#place_order').hide();
+			$('#braintree-spinner-container').insertAfter('button#place_order');
+			$('#braintree-spinner-container').show();
+
 			hostedFieldsInstance.tokenize(function (err, payload) {
 			    jQuery('input#braintree-error').val('');
 			    if (err) {
@@ -67,17 +82,50 @@
 				    errVal = 'empty';
 				}
 				jQuery('input#braintree-error').val(errVal);
+				$('#braintree-spinner-container').hide();
+				$('button#place_order').show();
 				canSubmit = true;
 				checkout_form.submit();
 			    } else {
 				jQuery('#braintree-payment-nonce').val(payload.nonce);
-				canSubmit = true;
-				checkout_form.submit();
+				console.log("Starting 3DS verify...");
+				var bt3DSContainer = document.getElementById('braintree-3ds-modal-container');
+				var bt3DSModalContent = document.getElementById('braintree-3ds-modal-content');
+				threeDSecure.verifyCard({
+				    amount: Braintree_params.total_amount,
+				    nonce: payload.nonce,
+				    addFrame: function (err, iframe) {
+					console.log('Adding 3DS frame');
+					bt3DSModalContent.appendChild(iframe);
+					$('div.braintree-3ds-modal-container').fadeIn();
+				    },
+				    removeFrame: function () {
+					console.log('Removing 3DS frame');
+					$('div.braintree-3ds-modal-container').fadeOut();
+				    }
+				}, function (err, response) {
+				    if (err) {
+					console.error(err);
+				    } else {
+//					console.log(response);
+					jQuery('#braintree-payment-nonce').val(response.nonce);
+				    }
+				    console.log('3DS check done');
+				    $('#braintree-spinner-container').hide();
+				    $('button#place_order').show();
+				    canSubmit = true;
+				    checkout_form.submit();
+				});
 			    }
 			});
 			return false;
 		    });
 		});
+	    });
+	    $('.braintree-3ds-modal-close-btn').click(function () {
+		$('div.braintree-3ds-modal-container').fadeOut();
+		$('#braintree-spinner-container').hide();
+		$('button#place_order').show();
 	    });
 	}
     }
