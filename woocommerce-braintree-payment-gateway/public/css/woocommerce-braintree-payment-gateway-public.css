@@ -4,102 +4,299 @@
  */
 
 #braintree-cc-form {
-	width: 100%;
-	margin: 0;
-	padding: 11px 12px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 11px 12px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .braintree-form-control {
-	height: 40px;
-	max-height: 40px;
-	box-sizing: border-box;
-	padding: 5px;
-	background-color: #fff;
-	border: 1px solid #ccc;
+    height: 40px;
+    max-height: 40px;
+    box-sizing: border-box;
+    padding: 5px;
+    background-color: #fff;
+    border: 1px solid #ccc;
 }
 
 #braintree-cc-form label {
-	width: 100%;
+    width: 100%;
 }
 
 #braintree-cc-form .form-row-first,
 #braintree-cc-form .form-row-last {
-	width: 48%;
+    width: 48%;
 }
 
 #braintree-cc-form .form-row-first {
-	float: left;
-	margin-right: 4%;
+    float: left;
+    margin-right: 4%;
 }
 
 #braintree-cc-form .form-row-last {
-	float: right;
+    float: right;
 }
 
 .braintree-one-half {
-	float: left;
-	width: 50%;
+    float: left;
+    width: 50%;
 }
 
 .braintree-card-expiry {
-	*zoom: 1;
+    *zoom: 1;
 }
 
 .braintree-one-half label {
-	clear: both;
-	display: block;
+    clear: both;
+    display: block;
 }
 
 #braintree-expiration-month,
 #braintree-expiration-year {
-	display: block;
-	width: 48% !important;
-	float: left;
-	margin-right: 1%;
+    display: block;
+    width: 48% !important;
+    float: left;
+    margin-right: 1%;
 }
 
 
 /* Braintree Hosted Fields styling classes*/
 
 .braintree-hosted-fields-focused {
-	border: 1px solid #0275d8;
-	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    border: 1px solid #0275d8;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
 }
 
 .braintree-hosted-fields-invalid {
-	border-color: tomato;
+    border-color: tomato;
 }
 
 .braintree-hosted-fields-valid {
-	border-color: green;
+    border-color: green;
 }
 
 .braintree-hosted-fields-focused.focused-invalid {
-	border: 1px solid #ebcccc;
-	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(100, 100, 0, .6);
+    border: 1px solid #ebcccc;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(100, 100, 0, .6);
 }
 
+/* Braintree 3D Secure container styling*/
+.braintree-3ds-modal-container {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.braintree-3ds-modal {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.braintree-3ds-modal-header {
+    text-align: right;
+}
+
+.braintree-3ds-modal-content {
+    text-align: center;
+}
+
+.braintree-3ds-modal-close-btn {
+    color: #aaaaaa;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.braintree-3ds-modal-close-btn:hover,
+.braintree-3ds-modal-close-btn:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Braintree spinner*/
+
+.braintree-spinner-container{
+    display: block;
+    margin:0 auto;
+    width:97px;
+}
+
+.braintree-spinner i{
+    width: 19px;
+    height: 19px;
+    display: inline-block;
+    border-radius: 50%;
+    background: rgb(17,91,219);
+}
+.braintree-spinner i:first-child{
+    opacity: 0;
+    animation:braintree-spinner-ani2 0.58s linear infinite;
+    -o-animation:braintree-spinner-ani2 0.58s linear infinite;
+    -ms-animation:braintree-spinner-ani2 0.58s linear infinite;
+    -webkit-animation:braintree-spinner-ani2 0.58s linear infinite;
+    -moz-animation:braintree-spinner-ani2 0.58s linear infinite;
+    transform:translate(-19px);
+    -o-transform:translate(-19px);
+    -ms-transform:translate(-19px);
+    -webkit-transform:translate(-19px);
+    -moz-transform:translate(-19px);
+}
+.braintree-spinner i:nth-child(2),
+.braintree-spinner i:nth-child(3){
+    animation:braintree-spinner-ani3 0.58s linear infinite;
+    -o-animation:braintree-spinner-ani3 0.58s linear infinite;
+    -ms-animation:braintree-spinner-ani3 0.58s linear infinite;
+    -webkit-animation:braintree-spinner-ani3 0.58s linear infinite;
+    -moz-animation:braintree-spinner-ani3 0.58s linear infinite;
+}
+.braintree-spinner i:last-child{
+    animation:braintree-spinner-ani1 0.58s linear infinite;
+    -o-animation:braintree-spinner-ani1 0.58s linear infinite;
+    -ms-animation:braintree-spinner-ani1 0.58s linear infinite;
+    -webkit-animation:braintree-spinner-ani1 0.58s linear infinite;
+    -moz-animation:braintree-spinner-ani1 0.58s linear infinite;
+}
+
+
+
+
+@keyframes braintree-spinner-ani1{
+    100%{
+	transform:translate(39px);
+	opacity: 0;
+    }
+}
+
+@-o-keyframes braintree-spinner-ani1{
+    100%{
+	-o-transform:translate(39px);
+	opacity: 0;
+    }
+}
+
+@-ms-keyframes braintree-spinner-ani1{
+    100%{
+	-ms-transform:translate(39px);
+	opacity: 0;
+    }
+}
+
+@-webkit-keyframes braintree-spinner-ani1{
+    100%{
+	-webkit-transform:translate(39px);
+	opacity: 0;
+    }
+}
+
+@-moz-keyframes braintree-spinner-ani1{
+    100%{
+	-moz-transform:translate(39px);
+	opacity: 0;
+    }
+}
+
+@keyframes braintree-spinner-ani2{
+    100%{
+	transform:translate(19px);
+	opacity: 1;
+    }
+}
+
+@-o-keyframes braintree-spinner-ani2{
+    100%{
+	-o-transform:translate(19px);
+	opacity: 1;
+    }
+}
+
+@-ms-keyframes braintree-spinner-ani2{
+    100%{
+	-ms-transform:translate(19px);
+	opacity: 1;
+    }
+}
+
+@-webkit-keyframes braintree-spinner-ani2{
+    100%{
+	-webkit-transform:translate(19px);
+	opacity: 1;
+    }
+}
+
+@-moz-keyframes braintree-spinner-ani2{
+    100%{
+	-moz-transform:translate(19px);
+	opacity: 1;
+    }
+}
+
+@keyframes braintree-spinner-ani3{
+    100%{
+	transform:translate(19px);
+    }
+}
+
+@-o-keyframes braintree-spinner-ani3{
+    100%{
+	-o-transform:translate(19px);
+    }
+}
+
+@-ms-keyframes braintree-spinner-ani3{
+    100%{
+	-ms-transform:translate(19px);
+    }
+}
+
+@-webkit-keyframes braintree-spinner-ani3{
+    100%{
+	-webkit-transform:translate(19px);
+    }
+}
+
+@-moz-keyframes braintree-spinner-ani3{
+    100%{
+	-moz-transform:translate(19px);
+    }
+}
 
 /* ==========================================================================
    Mobile styles.
    ========================================================================== */
 
 @media (max-width: 800px) {
-	#braintree-cc-form .form-row {
-		float: none;
-		width: 100%;
-		margin-right: 0;
-		padding: 0;
-	}
-	.braintree-one-half {
-		width: 100%;
-		clear: both;
-	}
-	#braintree-expiration-year {
-		float: right;
-		margin-right: 0;
-	}
+    .braintree-3ds-modal {
+	width: 100%;
+	height: 100%;
+    }
+    .braintree-3ds-modal-container {
+	padding-top: 0;
+    }
+    #braintree-cc-form .form-row {
+	float: none;
+	width: 100%;
+	margin-right: 0;
+	padding: 0;
+    }
+    .braintree-one-half {
+	width: 100%;
+	clear: both;
+    }
+    #braintree-expiration-year {
+	float: right;
+	margin-right: 0;
+    }
 }
