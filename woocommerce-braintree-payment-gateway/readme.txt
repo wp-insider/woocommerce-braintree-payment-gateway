@@ -20,6 +20,7 @@ WooCommerce Braintree Payment Gateway allows you to accept credit card payments 
 * Compatible with WordPress/Woocommerce plugins
 * You don't need any extra plugins or scripts to process the transaction
 * Accepts all major credit cards
+* It has the 3D secure payment support
 * Automatic Payment Confirmation to update order transaction
 * Very Simple Clean Code to add a Braintree payment method to woocommerce
 
