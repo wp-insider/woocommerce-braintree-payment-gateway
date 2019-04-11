@@ -88,34 +88,42 @@
 				checkout_form.submit();
 			    } else {
 				jQuery('#braintree-payment-nonce').val(payload.nonce);
-				console.log("Starting 3DS verify...");
-				var bt3DSContainer = document.getElementById('braintree-3ds-modal-container');
-				var bt3DSModalContent = document.getElementById('braintree-3ds-modal-content');
-				threeDSecure.verifyCard({
-				    amount: Braintree_params.total_amount,
-				    nonce: payload.nonce,
-				    addFrame: function (err, iframe) {
-					console.log('Adding 3DS frame');
-					bt3DSModalContent.appendChild(iframe);
-					$('div.braintree-3ds-modal-container').fadeIn();
-				    },
-				    removeFrame: function () {
-					console.log('Removing 3DS frame');
-					$('div.braintree-3ds-modal-container').fadeOut();
-				    }
-				}, function (err, response) {
-				    if (err) {
-					console.error(err);
-				    } else {
+				if (typeof threeDSecure !== "undefined") {
+				    console.log("Starting 3DS verify...");
+				    var bt3DSContainer = document.getElementById('braintree-3ds-modal-container');
+				    var bt3DSModalContent = document.getElementById('braintree-3ds-modal-content');
+				    threeDSecure.verifyCard({
+					amount: Braintree_params.total_amount,
+					nonce: payload.nonce,
+					addFrame: function (err, iframe) {
+					    console.log('Adding 3DS frame');
+					    bt3DSModalContent.appendChild(iframe);
+					    $('div.braintree-3ds-modal-container').fadeIn();
+					},
+					removeFrame: function () {
+					    console.log('Removing 3DS frame');
+					    $('div.braintree-3ds-modal-container').fadeOut();
+					}
+				    }, function (err, response) {
+					if (err) {
+					    console.error(err);
+					} else {
 //					console.log(response);
-					jQuery('#braintree-payment-nonce').val(response.nonce);
-				    }
-				    console.log('3DS check done');
+					    jQuery('#braintree-payment-nonce').val(response.nonce);
+					}
+					console.log('3DS check done');
+					$('#braintree-spinner-container').hide();
+					$('button#place_order').show();
+					canSubmit = true;
+					checkout_form.submit();
+				    });
+				} else {
+				    console.log("3DS not available.");
 				    $('#braintree-spinner-container').hide();
 				    $('button#place_order').show();
 				    canSubmit = true;
 				    checkout_form.submit();
-				});
+				}
 			    }
 			});
 			return false;
