@@ -36,6 +36,10 @@ After that, your customers will be able to select the credit card checkout optio
 
 This Plugin __does not__ support WooCommerce Subscriptions, but this functionality is in plan for the near future.
 
+= 3D Secure Payment Option =
+
+This addon support 3D secure payment option. If you want to use [3D Secure](https://articles.braintreepayments.com/guides/fraud-tools/3d-secure) Payment then you just need to enable that option in your Braintree merchant account. You can contact Braintree support to enable 3D secure in your live account.
+
 = Developers =
 
 Github repository - https://github.com/wp-insider/woocommerce-braintree-payment-gateway
