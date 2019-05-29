@@ -4,7 +4,7 @@ Donate link: https://wp-ecommerce.net/braintree-payment-gateway-woocommerce
 Tags: WooCommerce, Braintree, payment gateway, credit card, braintree plugin, braintreepayments, wordpress payments
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 1.9.1
+Stable tag: 1.9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -99,6 +99,9 @@ As an online merchant, it is your responsibility to make sure the information yo
 2. Frontend shop Checkout page Payment Form. 
 
 == Changelog ==
+
+= 1.9.2 =
+* Fixed WooCommerce settings URL in force SSL notice.
 
 = 1.9.1 =
 * Fixed inability to proceed with payment when 3D Secure is not enabled in Braintree account.

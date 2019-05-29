@@ -3,13 +3,13 @@
  * Plugin Name: WooCommerce Braintree Payment Gateway
  * Plugin URI: https://wp-ecommerce.net/
  * Description: Braintree Payment Gateway allows you to accept payments on your Woocommerce store. It authorizes credit card payments and processes them securely with your merchant account.
- * Version: 1.9.1
+ * Version: 1.9.2
  * Author: wp.insider
  * Author URI: https://wp-ecommerce.net/
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * WC requires at least: 3.0
- * WC tested up to: 3.5
+ * WC tested up to: 3.6
  */
 //Slug - wcbpg
 // If this file is called directly, abort.
@@ -115,7 +115,10 @@ function run_WC_braintree_payment_gateway() {
 
 	    // Show message if enabled and FORCE SSL is disabled and WordpressHTTPS plugin is not detected
 	    elseif ( 'no' == get_option( 'woocommerce_force_ssl_checkout' ) && ! class_exists( 'WordPressHTTPS' ) ) {
-		echo '<div class="error"><p>' . sprintf( __( 'Braintree is enabled, but the <a href="%s">force SSL option</a> is disabled; your checkout may not be secure! Please enable SSL and ensure your server has a valid SSL certificate - Braintree will only work in sandbox mode.', 'woocommerce' ), admin_url( 'admin.php?page=wc-settings&tab=checkout' ) ) . '</p></div>';
+		$greater_than_33 = version_compare( '3.3', WC_VERSION );
+		$wc_settings_url = admin_url( sprintf( 'admin.php?page=wc-settings&tab=%s', $greater_than_33 ? 'advanced' : 'checkout' ) );
+
+		echo '<div class="error"><p>' . sprintf( __( 'Braintree is enabled, but the <a href="%s">force SSL option</a> is disabled; your checkout may not be secure! Please enable SSL and ensure your server has a valid SSL certificate - Braintree will only work in sandbox mode.', 'woocommerce' ), $wc_settings_url ) . '</p></div>';
 	    }
 	}
 
