@@ -118,7 +118,7 @@ function run_WC_braintree_payment_gateway() {
 		$greater_than_33 = version_compare( '3.3', WC_VERSION );
 		$wc_settings_url = admin_url( sprintf( 'admin.php?page=wc-settings&tab=%s', $greater_than_33 ? 'advanced' : 'checkout' ) );
 
-		echo '<div class="error"><p>' . sprintf( __( 'Braintree is enabled, but the <a href="%s">force SSL option</a> is disabled; your checkout may not be secure! Please enable SSL and ensure your server has a valid SSL certificate - Braintree will only work in sandbox mode.', 'woocommerce' ), $wc_settings_url ) . '</p></div>';
+		echo '<div class="error"><p>' . sprintf( __( 'Braintree is enabled, but the <a href="%s">Secure checkout</a> option is disabled; your checkout may not be secure! Please enable SSL and ensure your server has a valid SSL certificate - Braintree will only work in sandbox mode.', 'woocommerce' ), $wc_settings_url ) . '</p></div>';
 	    }
 	}
 
