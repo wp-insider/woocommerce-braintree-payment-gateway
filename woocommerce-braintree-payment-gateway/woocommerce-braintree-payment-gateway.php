@@ -20,7 +20,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Begins execution of the plugin.
  */
-add_action( 'plugins_loaded', 'run_WC_braintree_payment_gateway' );
+add_action( 'plugins_loaded', 'run_WC_braintree_payment_gateway', 2147483647 );
 
 function run_WC_braintree_payment_gateway() {
 
