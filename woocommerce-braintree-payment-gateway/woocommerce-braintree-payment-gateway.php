@@ -330,33 +330,40 @@ function run_WC_braintree_payment_gateway() {
 				'check'           => __( 'Please check your credit card details.', 'woocommerce' ),
 			);
 
-			if ( isset( $_POST['braintree-error'] ) ) {
-				if ( ! empty( $_POST['braintree-error'] ) ) {
-					$errNotices = explode( ',', $_POST['braintree-error'] );
-					foreach ( $errNotices as $errNotice ) {
-						if ( ! empty( $errNotice ) ) {
-							wc_add_notice( $braintreeErrArr[ $errNotice ], 'error' );
-						}
+			$braintree_error = filter_input( INPUT_POST, 'braintree-error', FILTER_SANITIZE_STRING );
+
+			if ( ! empty( $braintree_error ) ) {
+				$errNotices = explode( ',', $braintree_error );
+				foreach ( $errNotices as $errNotice ) {
+					if ( ! empty( $errNotice ) ) {
+						wc_add_notice( $braintreeErrArr[ $errNotice ], 'error' );
 					}
-					return array(
-						'result'   => 'fail',
-						'redirect' => '',
-					);
 				}
+				return array(
+					'result'   => 'fail',
+					'redirect' => '',
+				);
 			}
 
 			$this->get_braintree_api();
 
+			$payment_nonce = filter_input( INPUT_POST, 'braintree-payment-nonce', FILTER_SANITIZE_STRING );
+
+			$c_fname = filter_input( INPUT_POST, 'billing_first_name', FILTER_SANITIZE_STRING );
+			$c_lname = filter_input( INPUT_POST, 'billing_last_name', FILTER_SANITIZE_STRING );
+			$c_phone = filter_input( INPUT_POST, 'billing_phone', FILTER_SANITIZE_STRING );
+			$c_email = filter_input( INPUT_POST, 'billing_email', FILTER_SANITIZE_STRING );
+
 			$result = Braintree_Transaction::sale(
 				array(
 					'amount'             => $order->get_total(), //order_total,
-					'paymentMethodNonce' => $_POST['braintree-payment-nonce'],
+					'paymentMethodNonce' => $payment_nonce,
 					'channel'            => 'TipsandTricks_SP',
 					'customer'           => array(
-						'firstName' => $_POST['billing_first_name'],
-						'lastName'  => $_POST['billing_last_name'],
-						'phone'     => $_POST['billing_phone'],
-						'email'     => $_POST['billing_email'],
+						'firstName' => $c_fname,
+						'lastName'  => $c_lname,
+						'phone'     => $c_phone,
+						'email'     => $c_email,
 					),
 					'options'            => array(
 						'submitForSettlement' => true,
