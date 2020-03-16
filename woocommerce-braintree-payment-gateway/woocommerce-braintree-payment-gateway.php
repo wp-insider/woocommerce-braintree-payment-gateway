@@ -256,7 +256,7 @@ function run_WC_braintree_payment_gateway() {
 				'Braintree_params',
 				array(
 					'client_token' => $clientToken,
-					'total_amount' => $this->get_order_total(),
+					'total_amount' => WC()->cart->total,
 				)
 			);
 			?>
