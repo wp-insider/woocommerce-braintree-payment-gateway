@@ -3,8 +3,8 @@ Contributors: wp.insider
 Donate link: https://wp-ecommerce.net/braintree-payment-gateway-woocommerce
 Tags: WooCommerce, Braintree, payment gateway, credit card, braintree plugin, braintreepayments, wordpress payments
 Requires at least: 4.0
-Tested up to: 5.3
-Stable tag: 1.9.4t2
+Tested up to: 5.4
+Stable tag: 1.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,7 +100,7 @@ As an online merchant, it is your responsibility to make sure the information yo
 
 == Changelog ==
 
-= WIP 1.9.4 =
+= 1.9.4 =
 * Postponed plugin init to ensure other addons have loaded.
 * Modified plugin code to follow WP Coding Standards.
 
