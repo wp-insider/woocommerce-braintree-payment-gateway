@@ -8,8 +8,8 @@
  * Author URI: https://wp-ecommerce.net/
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * WC requires at least: 4.0
- * WC tested up to: 5.5
+ * WC requires at least: 5.0
+ * WC tested up to: 6.1
  */
 //Slug - wcbpg
 // If this file is called directly, abort.
