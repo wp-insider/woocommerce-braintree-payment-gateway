@@ -307,9 +307,9 @@ function run_WC_braintree_payment_gateway() {
 			wp_register_style( 'wc-braintree-style', plugins_url( 'public/css/woocommerce-braintree-payment-gateway-public.css', __FILE__ ), array(), '20160306', 'all' );
 			wp_enqueue_style( 'wc-braintree-style' );
 
-			wp_enqueue_script( 'wc-braintree-client', 'https://js.braintreegateway.com/web/3.43.0/js/client.min.js', array(), null, true );
-			wp_enqueue_script( 'wc-braintree-hosted', 'https://js.braintreegateway.com/web/3.43.0/js/hosted-fields.min.js', array(), null, true );
-			wp_enqueue_script( 'wc-three-d-secure', 'https://js.braintreegateway.com/web/3.43.0/js/three-d-secure.min.js', array(), null, true );
+			wp_enqueue_script( 'wc-braintree-client', 'https://js.braintreegateway.com/web/3.88.4/js/client.min.js', array(), null, true );
+			wp_enqueue_script( 'wc-braintree-hosted', 'https://js.braintreegateway.com/web/3.88.4/js/hosted-fields.min.js', array(), null, true );
+			wp_enqueue_script( 'wc-three-d-secure', 'https://js.braintreegateway.com/web/3.88.4/js/three-d-secure.min.js', array(), null, true );
 
 			wp_enqueue_script( 'wc-braintree-payment-gateway', plugins_url( 'public/js/woocommerce-braintree-payment-gateway-public.js', __FILE__ ), array( 'jquery' ), WC_VERSION, true );
 		}
