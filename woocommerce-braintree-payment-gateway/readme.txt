@@ -1,10 +1,10 @@
 === WooCommerce Braintree Payment Gateway ===
 Contributors: wp.insider
 Donate link: https://wp-ecommerce.net/braintree-payment-gateway-woocommerce
-Tags: WooCommerce, Braintree, payment gateway, credit card, braintree plugin, braintreepayments, wordpress payments
+Tags: WooCommerce, Braintree, payment gateway, braintreepayments, payments, credit card, wordpress payments
 Requires at least: 5.0
-Tested up to: 5.9
-Stable tag: 1.9.4
+Tested up to: 6.1
+Stable tag: 1.9.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,7 +38,9 @@ This Plugin __does not__ support WooCommerce Subscriptions, but this functionali
 
 = 3D Secure Payment Option =
 
-This addon support 3D secure payment option. If you want to use [3D Secure](https://articles.braintreepayments.com/guides/fraud-tools/3d-secure) Payment then you just need to enable that option in your Braintree merchant account. You can contact Braintree support to enable 3D secure in your live account.
+This Braintree addon supports 3D secure payment option. If you want to use [3D Secure](https://articles.braintreepayments.com/guides/fraud-tools/3d-secure) Payment then you just need to enable that option in your Braintree merchant account. You can contact Braintree support to enable 3D secure in your live account.
+
+Also works with 3DS v2.
 
 = Developers =
 
@@ -99,6 +101,10 @@ As an online merchant, it is your responsibility to make sure the information yo
 2. Frontend shop Checkout page Payment Form. 
 
 == Changelog ==
+
+= 1.9.5 =
+* Updated to work with 3DS version 2. 
+* Updated the Braintree SDK to latest.
 
 = 1.9.4 =
 * Postponed plugin init to ensure other addons have loaded.
