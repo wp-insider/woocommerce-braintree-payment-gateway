@@ -3,13 +3,13 @@
  * Plugin Name: WooCommerce Braintree Payment Gateway
  * Plugin URI: https://wp-ecommerce.net/
  * Description: Braintree Payment Gateway allows you to accept payments on your Woocommerce store. It authorizes credit card payments and processes them securely with your merchant account.
- * Version: 1.9.5
+ * Version: 1.9.6
  * Author: wp.insider
  * Author URI: https://wp-ecommerce.net/
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * WC requires at least: 5.0
- * WC tested up to: 8.2.1
+ * WC tested up to: 8.3.1
  */
 
 //Slug - wcbpg
@@ -240,26 +240,6 @@ function run_WC_braintree_payment_gateway() {
 		 */
 		public function payment_fields() {
 			global $woocommerce;
-			$this->get_braintree_api();
-			try {
-				$clientToken = Braintree_ClientToken::generate();
-			} catch ( Exception $e ) {
-				$eClass = get_class( $e );
-				$ret    = 'Braintree Error: ' . $eClass;
-				if ( $eClass == 'Braintree\Exception\Authentication' ) {
-					$ret = __( 'Braintree Authentication Error. Check your API keys.', 'wp_braintree_lang' );
-				}
-				echo '<b style="color:red;">' . $ret . '</b>';
-				die();
-			}
-			wp_localize_script(
-				'wc-braintree-payment-gateway',
-				'Braintree_params',
-				array(
-					'client_token' => $clientToken,
-					'total_amount' => WC()->cart->total,
-				)
-			);
 			?>
 <div id="braintree-3ds-modal-container" class="braintree-3ds-modal-container" style="display: none;">
 	<div id="braintree-3ds-modal" class="braintree-3ds-modal">
@@ -313,6 +293,32 @@ function run_WC_braintree_payment_gateway() {
 			wp_enqueue_script( 'wc-three-d-secure', 'https://js.braintreegateway.com/web/3.88.4/js/three-d-secure.min.js', array(), null, true );
 
 			wp_enqueue_script( 'wc-braintree-payment-gateway', plugins_url( 'public/js/woocommerce-braintree-payment-gateway-public.js', __FILE__ ), array( 'jquery' ), WC_VERSION, true );
+                        
+                        //Include the Braintree library classes.
+			$this->get_braintree_api();
+                        if(class_exists('Braintree_ClientToken')){
+                            //Do this if the class exists.
+                            try {
+                                    $clientToken = Braintree_ClientToken::generate();
+                            } catch ( Exception $e ) {
+                                    $eClass = get_class( $e );
+                                    $ret    = 'Braintree Error: ' . $eClass;
+                                    if ( $eClass == 'Braintree\Exception\Authentication' ) {
+                                            $ret = __( 'Braintree Authentication Error. Check your API keys.', 'wp_braintree_lang' );
+                                    }
+                                    echo '<b style="color:red;">' . $ret . '</b>';
+                                    die();
+                            }
+                            wp_localize_script(
+                                    'wc-braintree-payment-gateway',
+                                    'Braintree_params',
+                                    array(
+                                            'client_token' => $clientToken,
+                                            'total_amount' => WC()->cart->total,
+                                    )
+                            );
+                        }
+                        
 		}
 
 		/**
