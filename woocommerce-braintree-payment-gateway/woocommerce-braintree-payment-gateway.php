@@ -3,7 +3,7 @@
  * Plugin Name: WooCommerce Braintree Payment Gateway
  * Plugin URI: https://wp-ecommerce.net/
  * Description: Braintree Payment Gateway allows you to accept payments on your Woocommerce store. It authorizes credit card payments and processes them securely with your merchant account.
- * Version: 1.9.6
+ * Version: 1.9.7
  * Author: wp.insider
  * Author URI: https://wp-ecommerce.net/
  * License: GPL-2.0+
@@ -116,13 +116,14 @@ function run_WC_braintree_payment_gateway() {
 				echo '<div class="error"><p>' . sprintf( __( 'Braintree Error: Braintree requires PHP 5.4.0 and above. You are using version %s.', 'woocommerce' ), phpversion() ) . '</p></div>';
 			}
 
+                        //This option has been removed in latest version of WooCommerce. So we are removing it.
 			// Show message if enabled and FORCE SSL is disabled and WordpressHTTPS plugin is not detected
-			elseif ( 'no' == get_option( 'woocommerce_force_ssl_checkout' ) && ! class_exists( 'WordPressHTTPS' ) ) {
-				$greater_than_33 = version_compare( '3.3', WC_VERSION );
-				$wc_settings_url = admin_url( sprintf( 'admin.php?page=wc-settings&tab=%s', $greater_than_33 ? 'advanced' : 'checkout' ) );
-
-				echo '<div class="error"><p>' . sprintf( __( 'Braintree is enabled, but the <a href="%s">Secure checkout</a> option is disabled in the Advanced settings menu of WooCommerce. Your checkout may not be secure. Please ensure that your server has a valid SSL certificate and then enable the <a href="%s">Secure checkout</a> option.', 'woocommerce' ), $wc_settings_url, $wc_settings_url ) . '</p></div>';
-			}
+//			elseif ( 'no' == get_option( 'woocommerce_force_ssl_checkout' ) && ! class_exists( 'WordPressHTTPS' ) ) {
+//				$greater_than_33 = version_compare( '3.3', WC_VERSION );
+//				$wc_settings_url = admin_url( sprintf( 'admin.php?page=wc-settings&tab=%s', $greater_than_33 ? 'advanced' : 'checkout' ) );
+//
+//				echo '<div class="error"><p>' . sprintf( __( 'Braintree is enabled, but the <a href="%s">Secure checkout</a> option is disabled in the Advanced settings menu of WooCommerce. Your checkout may not be secure. Please ensure that your server has a valid SSL certificate and then enable the <a href="%s">Secure checkout</a> option.', 'woocommerce' ), $wc_settings_url, $wc_settings_url ) . '</p></div>';
+//			}
 		}
 
 		/**

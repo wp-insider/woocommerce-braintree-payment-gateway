@@ -4,7 +4,7 @@ Donate link: https://wp-ecommerce.net/braintree-payment-gateway-woocommerce
 Tags: WooCommerce, Braintree, payment gateway, braintreepayments, payments, credit card, wordpress payments
 Requires at least: 5.0
 Tested up to: 6.4
-Stable tag: 1.9.6
+Stable tag: 1.9.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,9 @@ As an online merchant, it is your responsibility to make sure the information yo
 2. Frontend shop Checkout page Payment Form. 
 
 == Changelog ==
+
+= 1.9.7 =
+* Removed the admin notice for the secure checkout option which has been removed from WooCommerce.
 
 = 1.9.6 =
 * Updated for WooCommerce v8.3.1 
