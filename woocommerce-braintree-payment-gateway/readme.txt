@@ -1,10 +1,10 @@
 === WooCommerce Braintree Payment Gateway ===
 Contributors: wp.insider
 Donate link: https://wp-ecommerce.net/braintree-payment-gateway-woocommerce
-Tags: WooCommerce, Braintree, payment gateway, braintreepayments, payments, credit card, wordpress payments
+Tags: WooCommerce, Braintree, payment gateway, braintreepayments
 Requires at least: 5.0
 Tested up to: 6.4
-Stable tag: 1.9.7
+Stable tag: 1.9.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,8 @@ WooCommerce Braintree Payment Gateway allows you to accept credit card payments 
 == Description ==
 
 WooCommerce Braintree Payment Gateway allows you to accept credit card payments on your Woocommerce store via the Braintree gateway. It authorizes credit card payments and processes them securely with your Braintree merchant account.
+
+It is compatible with WooCommerce High-Performance Order Storage (HPOS) feature.
 
 = Plugin Functionality: =
 
@@ -101,6 +103,9 @@ As an online merchant, it is your responsibility to make sure the information yo
 2. Frontend shop Checkout page Payment Form. 
 
 == Changelog ==
+
+= 1.9.8 =
+* Added HPOS feature compatibility.
 
 = 1.9.7 =
 * Removed the admin notice for the secure checkout option which has been removed from WooCommerce.
