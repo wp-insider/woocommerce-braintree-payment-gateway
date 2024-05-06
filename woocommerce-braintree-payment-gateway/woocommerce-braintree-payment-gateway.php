@@ -50,6 +50,12 @@ function run_WC_braintree_payment_gateway() {
 	 * Braintree gateway class
 	 */
 	class WC_braintree_payment_gateway extends WC_Payment_Gateway {
+            
+                public $sandbox;
+                public $environment;
+                public $merchant_id;
+                public $private_key;
+                public $public_key;
 
 		/**
 		 * Constructor
