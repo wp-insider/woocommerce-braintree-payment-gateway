@@ -2,9 +2,9 @@
 Contributors: wp.insider
 Donate link: https://wp-ecommerce.net/braintree-payment-gateway-woocommerce
 Tags: WooCommerce, Braintree, payment gateway, braintreepayments
-Requires at least: 5.0
-Tested up to: 6.4
-Stable tag: 1.9.8
+Requires at least: 6.0
+Tested up to: 6.8
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,13 +18,14 @@ It is compatible with WooCommerce High-Performance Order Storage (HPOS) feature.
 
 = Plugin Functionality: =
 
-* Easy to install and configure
-* Compatible with WordPress/Woocommerce plugins
-* You don't need any extra plugins or scripts to process the transaction
-* Accepts all major credit cards
-* It has the 3D secure payment support
-* Automatic Payment Confirmation to update order transaction
-* Very Simple Clean Code to add a Braintree payment method to woocommerce
+* Easy to install and configure.
+* Compatible with WordPress/Woocommerce plugins.
+* You don't need any extra plugins or scripts to process the transaction.
+* Accepts all major credit cards.
+* It has the 3D secure payment support.
+* Uses the latest version of Braintree library.
+* Automatic payment confirmation to update order transaction.
+* Very simple and clean Code to add a Braintree payment method to woocommerce.
 
 Checkout Payment Form is responsive, adapts nicely to all mobile screen sizes.
 
@@ -103,6 +104,10 @@ As an online merchant, it is your responsibility to make sure the information yo
 2. Frontend shop Checkout page Payment Form. 
 
 == Changelog ==
+
+= 2.0.0 =
+* Updated the Braintree library to the latest version.
+* Tested to work with the latest version of WooCommerce, Braintree and WordPress.
 
 = 1.9.8 =
 * Added HPOS feature compatibility.
