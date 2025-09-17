@@ -1,10 +1,10 @@
-=== WooCommerce Braintree Payment Gateway ===
+=== Payment Gateway Braintree WooCommerce ===
 Contributors: wp.insider
 Donate link: https://wp-ecommerce.net/braintree-payment-gateway-woocommerce
 Tags: WooCommerce, Braintree, payment gateway, braintreepayments
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -104,6 +104,9 @@ As an online merchant, it is your responsibility to make sure the information yo
 2. Frontend shop Checkout page Payment Form. 
 
 == Changelog ==
+
+= 2.0.1 =
+* Updated the display name and banner graphic.
 
 = 2.0.0 =
 * Updated the Braintree library to the latest version.
