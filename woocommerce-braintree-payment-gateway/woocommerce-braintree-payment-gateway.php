@@ -50,7 +50,7 @@ function run_WC_braintree_payment_gateway() {
 	 * Braintree gateway class
 	 */
 	class WC_braintree_payment_gateway extends WC_Payment_Gateway {
-            
+
                 public $sandbox;
                 public $environment;
                 public $merchant_id;
@@ -307,7 +307,7 @@ function run_WC_braintree_payment_gateway() {
 			wp_enqueue_script( 'wc-three-d-secure', 'https://js.braintreegateway.com/web/3.88.4/js/three-d-secure.min.js', array(), null, true );
 
 			wp_enqueue_script( 'wc-braintree-payment-gateway', plugins_url( 'public/js/woocommerce-braintree-payment-gateway-public.js', __FILE__ ), array( 'jquery' ), WC_VERSION, true );
-                        
+
                         //Include the Braintree library classes.
 			$this->get_braintree_api();
                         if(class_exists('Braintree\ClientToken')){
@@ -332,7 +332,7 @@ function run_WC_braintree_payment_gateway() {
                                     )
                             );
                         }
-                        
+
 		}
 
 		/**
@@ -375,22 +375,24 @@ function run_WC_braintree_payment_gateway() {
 			$c_phone = filter_input( INPUT_POST, 'billing_phone', FILTER_SANITIZE_STRING );
 			$c_email = filter_input( INPUT_POST, 'billing_email', FILTER_SANITIZE_STRING );
 
-			$result = Braintree\Transaction::sale(
-				array(
-					'amount'             => $order->get_total(), //order_total,
-					'paymentMethodNonce' => $payment_nonce,
-					'channel'            => 'TipsandTricks_SP',
-					'customer'           => array(
-						'firstName' => $c_fname,
-						'lastName'  => $c_lname,
-						'phone'     => $c_phone,
-						'email'     => $c_email,
-					),
-					'options'            => array(
-						'submitForSettlement' => true,
-					),
-				)
+			$transaction_args = array(
+				'amount'             => $order->get_total(), //order_total,
+				'paymentMethodNonce' => $payment_nonce,
+				'channel'            => 'TipsandTricks_SP',
+				'customer'           => array(
+					'firstName' => $c_fname,
+					'lastName'  => $c_lname,
+					'phone'     => $c_phone,
+					'email'     => $c_email,
+				),
+				'options'            => array(
+					'submitForSettlement' => true,
+				),
 			);
+
+			$transaction_args = apply_filters( 'woocommerce_braintree_transaction_args', $transaction_args, $order );
+
+			$result = Braintree\Transaction::sale( $transaction_args );
 
 			if ( $result->success ) {
 				//              echo("Success! Transaction ID: " . $result->transaction->id);
